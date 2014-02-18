@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="sub-header">Inventory</h2>
+    {% if box_list %}
+        <div class="row placeholders">
+        {% for box in box_list %}
+            <div class="col-xs-6 col-sm-3 placeholder">
+                <h2><button onclick="window.location.href='{% url 'homebrew:box_detail' box.id %}'"
+                    {% if box.status == 0 %}
+                        class="btn btn-success"
+                    {% elif box.status == 1 %}
+                        class="btn btn-warning"
+                    {% else %} 
+                        class="btn btn-danger"
+                    {% endif %}
+                                >{{ box.name }}</button></h2>
+                <span class="text-muted">Ready {{ box.ready }}</span>
+                <span class="text-muted">{{ box.number_bottles }}/{{ box.max_bottles }}</span>
+            </div> <!-- placeholder -->
+        {% endfor %}
+        </div>
+    {% else %}
+        <span class="text-muted">No boxes in inventory</span>
+    {% endif %}
+
+    <h2 class="sub-header">Recent batches</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Comment</th>
+                    <th>Pot ready</th>
+                    <th>Ready</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if batch_list %}
+                    {% for batch in batch_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:batch_detail' batch.id %}">{{ batch.id }}</a>
+                            <td><a href="{% url 'homebrew:batch_detail' batch.id %}">{{ batch }}</a></td>
+                            <td>{{ batch.maker_comment }}</td></td>
+                            <td>{{ batch.predicted_brew_ready }}</td>
+                            <td>{{ batch.predicted_ready }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+

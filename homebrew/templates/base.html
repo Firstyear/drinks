@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+
+<!-- http://getbootstrap.com/examples/dashboard/ -->
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>{% block title %}Homebrew manager{% endblock %}</title>
+        <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+        <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <!-- Do I need as many of these as items ... ? -->
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                    </button>
+                    <a class="navbar-brand" href="{% url 'homebrew:index' %}">Homebrew manager</a>
+                </div> <!-- end navbar-header -->
+                <div class="navbar-collapse collapse">
+                    <form class="navbar-form navbar-right" method="get" action="{% url 'homebrew:batch_list' %}" >
+                        <input type="text" class="form-control" name="search" placeholder="Search Batch ...">
+                        <input type="submit" value="Search" class="btn btn-success"/>
+                    </form>
+                </div> <!-- end collapse -->
+            </div> <!-- end container -->
+        </div> <!-- End navbar -->
+
+        <div class="container-fluid"> 
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar">
+                    <ul class="nav nav-sidebar">
+                        <li><a href="{% url 'homebrew:index' %}">Dashboard</a></li>
+                        <li><a href="{% url 'homebrew:batch_create' %}">New batch</a></li>
+                        <li><a href="{% url 'homebrew:box_create' %}">New box</a></li>
+                        <li><a href="{% url 'homebrew:label_list' %}">Label management</a></li>
+                        <li><a href="{% url 'homebrew:ingredient_view' %}">Ingredient management</a></li>
+                    </ul>
+                </div> <!-- sidebar -->
+                <div id="content">
+                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                        {% block content %}
+                        <p>Template</p>
+                        {% endblock %}
+                    </div> <!-- End main -->
+                </div> <!-- content -->
+            </div> <!-- row -->
+        </div> <!-- container fluid -->
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+    </body>
+</html> 

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <h2 class="sub-header">Labels</h2>
+    <button onclick="window.location.href='{% url 'homebrew:label_create' %}'" class="btn btn-success">Create label</button>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if label_list %}
+                    {% for label in label_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:label_detail' label.id %}">{{ label.id }}</a>
+                            <td><a href="{% url 'homebrew:label_detail' label.id %}">{{ label.name }}</a></td>
+                            <td><a href="{% url 'homebrew:label_detail' label.id %}"><img src="{{ label.image.url }}" width=300/></a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

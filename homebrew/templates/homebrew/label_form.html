@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>New label</h2>
+   
+    {% if form.is_multipart %} 
+        <form method="post" enctype="multipart/form-data">
+    {% else %}
+        <form method="post">
+    {% endif %}
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <input type="submit" value="Submit" class="btn btn-success"/>
+    </form>
+
+{% endblock %}
+

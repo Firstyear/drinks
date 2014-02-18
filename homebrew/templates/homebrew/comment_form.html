@@ -1,0 +1,23 @@
+{% extends "homebrew/comment_base.html" %}
+
+{% block title %}Homebrew comment{% endblock %}
+
+{% block heading %}Homebrew comment{% endblock %}
+
+{% block content %}
+    <h3>Comment on batch #{{ batch.id }}</h3>
+    
+    
+    {% if batch.label != None %}
+        <p><img src="{{ batch.label.image.url }}" width=300/></p>
+    {% else %}
+        <p><img src="{{ batch.sourceingredient.label.image.url }}" width=300/></p>
+    {% endif %}
+
+    <form action="{% url 'homebrew:comment_create' batch.id  %}" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    
+        <input type="submit" value="Submit" class="btn btn-success"/>
+    </form>
+
+{% endblock %}

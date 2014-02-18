@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Source Ingredient {{ sourceingredient.name }}</h3> 
+
+    <p><label>Bottle time: </label>{{ sourceingredient.bottle_time }} days</p>
+    <p><label>Volume produced: </label>{{ sourceingredient.volume }} ml</p>
+
+
+    <p><label>Source EAN: </label>{{ sourceingredient.source_ean }}</p>
+
+    <p><label>Batch EAN: </label>{{ sourceingredient.ean13 }}</p>
+    
+    <p><label>Comment: </label>{{ sourceingredient.comment }}</p>
+    
+    <p><label>Label: </label><img src="{{ sourceingredient.label.image.url }}" width=300/></p>
+    
+
+    <p><button onclick="window.location.href='{% url 'homebrew:sourceingredient_update' sourceingredient.id %}'" class="btn btn-success">Update</button></p>
+{% endblock %}

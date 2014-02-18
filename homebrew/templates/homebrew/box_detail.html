@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Box {{ box.id }}</h3>
+
+    {% if box.batch == None %}
+    <p>Current batch: None</p>
+    <p>{{ box.max_bottles }} x {{ box.bottle_capacity }}ml</p>
+    Add batch ? (GO TO FORM )
+    {% else %}
+    <p>Current batch: #{{ box.batch.id }} <a href="{% url 'homebrew:batch_detail' box.batch.id %}">{{ box.batch }}</a></p>
+    <p>Ready : {{ box.ready }}</p>
+    <p>{{ box.number_bottles }}/{{ box.max_bottles }} x {{ box.bottle_capacity }}ml</p>
+    {% endif %}
+
+    <p><button onclick="window.location.href='{% url 'homebrew:box_update' box.id %}'" class="btn btn-success">Update</button></p>
+   
+    <p><button onclick="window.location.href='{% url 'homebrew:box_delete' box.id %}'" class="btn btn-danger">Delete</button></p>
+
+{% endblock %}

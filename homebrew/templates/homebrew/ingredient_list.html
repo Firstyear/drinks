@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row col-md-10">
+        <h2>List of source ingredients (kits)</h2>
+        <button onclick="window.location.href='{% url 'homebrew:sourceingredient_create' %}'" class="btn btn-success">Create ingredient</button>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Comment</th>
+                        <th>Product EAN</th>
+                        <th>Batch EAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if sourceingredient_list %}
+                    {% for sourceingredient in sourceingredient_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:sourceingredient_detail' sourceingredient.pk %}">{{ sourceingredient.name }}</a></td>
+                            <td>{{ sourceingredient.comment }}</td>
+                            <td>{{ sourceingredient.source_ean }}</td>
+                            <td>{{ sourceingredient.ean13 }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h2>List of yeasts</h2>
+        <button onclick="window.location.href='{% url 'homebrew:yeast_create' %}'" class="btn btn-success">Create yeast</button>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if yeast_list %}
+                    {% for yeast in yeast_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:yeast_update' yeast.pk %}">{{ yeast.name }}</a></td>
+                            <td>{{ yeast.comment }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h2>List of sugars</h2>
+        <button onclick="window.location.href='{% url 'homebrew:sugar_create' %}'" class="btn btn-success">Create sugar</button>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if sugar_list %}
+                    {% for sugar in sugar_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:sugar_update' sugar.pk %}">{{ sugar.name }}</a></td>
+                            <td>{{ sugar.comment }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h3>Batch #{{ batch.id }} - {{ batch }}</h3>
+
+    <p><label>Creator: </label> {{ batch.user }}</p>
+    <p><label>Source ingredient: </label><a href="{% url 'homebrew:sourceingredient_detail' batch.sourceingredient.id %}">{{ batch.sourceingredient.name }}</a></p>
+    <p><label>Yeast: </label>{{ batch.yeast }}</p>
+    <p><label>Yeast mass: </label>{{ batch.yeast_volume }}gm</p>
+    <p><label>Sugar: </label>{{ batch.sugar }}</p>
+    <p><label>Sugar mass: </label>{{ batch.sugar_volume }}gm</p>
+    <p><label>Brewing start date: </label>{{ batch.pot_start_date }}</p>
+    <p><label>Start temperature: </label>{{ batch.start_temperature }}</p>
+    <p><label>Average temperature prediction: </label>{{ batch.avg_predicted_temperature }}</p>
+    <p><label>Estimated brew finish date: </label>{{ batch.predicted_brew_ready }}</p>
+    <p><label>Bottling date: </label>{{ batch.bottling_date }}</p>
+    <p><label>Predicted ready date: </label>{{ batch.predicted_ready }}</p>
+
+    <p><label>Start specific gravity: </label>{{ batch.start_specific_gravity }}</p>
+    <p><label>End specific gravity: </label>{{ batch.end_specific_gravity }}</p>
+    <p><label>Alcohol by volume: </label>{{ batch.predicted_abv }}%</p>
+    {% if batch.label != None %}
+        <p><label>Label: </label><img src="{{ batch.label.image.url }}" width=300/></p>
+    {% else %}
+        <p><label>Source Ingredient Label: </label><img src="{{ batch.sourceingredient.label.image.url }}" width=300/></p>
+    {% endif %}
+    
+    <p><button onclick="window.location.href='{% url 'homebrew:batch_update' batch.id %}'" class="btn btn-success">Update</button></p>
+
+    <p><button onclick="window.location.href='{% url 'homebrew:batch_label' batch.id %}'" class="btn btn-success">Download labels</button></p>
+
+    <p><button onclick="window.location.href='{% url 'homebrew:comment_create' batch.id %}'" class="btn btn-success">Comment</button></p>
+
+
+    {% if comments %}
+        <ul>
+        {% for comment in comments %}
+            <li>{{ comment.created }} <p>{{ comment.viewpoint }}</p></li>
+        {% endfor %}
+        <ul>
+    {% else %}
+    <p>
+    No comments
+    </p>
+    {% endif %}
+{% endblock %}

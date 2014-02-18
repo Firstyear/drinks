@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+    <h3 class="sub-header">{{ label.name }}</h3>
+
+    <p><img src="{{ label.image.url }}"/></p>
+
+    <p><button onclick="window.location.href='{% url 'homebrew:label_update' label.id %}'" class="btn btn-success">Update</button></p>
+   
+    <p><button onclick="window.location.href='{% url 'homebrew:label_delete' label.id %}'" class="btn btn-danger">Delete</button></p>
+
+{% endblock %}

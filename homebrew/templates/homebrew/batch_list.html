@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="sub-header">Recent batches</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Comment</th>
+                    <th>Pot ready</th>
+                    <th>Ready</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if batch_list %}
+                    {% for batch in batch_list %}
+                        <tr>
+                            <td><a href="{% url 'homebrew:batch_detail' batch.id %}">{{ batch.id }}</a>
+                            <td><a href="{% url 'homebrew:batch_detail' batch.id %}">{{ batch }}</a></td>
+                            <td>{{ batch.maker_comment }}</td></td>
+                            <td>{{ batch.predicted_brew_ready }}</td>
+                            <td>{{ batch.predicted_ready }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
