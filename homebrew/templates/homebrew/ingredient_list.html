@@ -4,7 +4,6 @@
 
     <div class="row col-md-10">
         <h2>List of source ingredients (kits)</h2>
-        <button onclick="window.location.href='{% url 'homebrew:sourceingredient_create' %}'" class="btn btn-success">Create ingredient</button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -29,10 +28,10 @@
                 </tbody>
             </table>
         </div>
+        <button onclick="window.location.href='{% url 'homebrew:sourceingredient_create' %}'" class="btn btn-success">Create ingredient</button>
     </div>
     <div class="col-md-4">
         <h2>List of yeasts</h2>
-        <button onclick="window.location.href='{% url 'homebrew:yeast_create' %}'" class="btn btn-success">Create yeast</button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -53,10 +52,10 @@
                 </tbody>
             </table>
         </div>
+        <button onclick="window.location.href='{% url 'homebrew:yeast_create' %}'" class="btn btn-success">Create yeast</button>
     </div>
     <div class="col-md-4">
         <h2>List of sugars</h2>
-        <button onclick="window.location.href='{% url 'homebrew:sugar_create' %}'" class="btn btn-success">Create sugar</button>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -77,6 +76,7 @@
                 </tbody>
             </table>
         </div>
+        <button onclick="window.location.href='{% url 'homebrew:sugar_create' %}'" class="btn btn-success">Create sugar</button>
     </div>
 
 {% endblock %}

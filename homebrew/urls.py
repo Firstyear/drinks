@@ -32,6 +32,7 @@ urlpatterns = patterns('',
     url(r'yeast/(?P<pk>\d+)/update/$', login_required(views.YeastUpdateView.as_view()), name='yeast_update'),
     ##### These don't need auth ....
     ### Fix this view!!!!! With the success_url
+    url(r'^comment/$', views.CommentCreateView.as_view(), name='comment_create_anon'),
     url(r'^comment/(?P<pk>\d+)/$', views.CommentCreateView.as_view(), name='comment_create'),
     url(r'^comment/thanks/$', views.CommentThanksView.as_view(), name='comment_thanks'),
 )

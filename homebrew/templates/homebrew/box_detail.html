@@ -14,8 +14,11 @@
     <p>{{ box.number_bottles }}/{{ box.max_bottles }} x {{ box.bottle_capacity }}ml</p>
     {% endif %}
 
-    <p><button onclick="window.location.href='{% url 'homebrew:box_update' box.id %}'" class="btn btn-success">Update</button></p>
-   
-    <p><button onclick="window.location.href='{% url 'homebrew:box_delete' box.id %}'" class="btn btn-danger">Delete</button></p>
+    <p><a href="{% url 'homebrew:box_update' box.id %}" class="btn btn-success">Update</a></p>
+  
+    <form action="{% url 'homebrew:box_delete' box.id %}" method="post"> 
+        {% csrf_token %}
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+    </form>
 
 {% endblock %}

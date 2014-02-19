@@ -5,6 +5,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.forms.models import modelform_factory
+from django.forms.fields import TextInput
 ### Can add @method_decorator(login_required) to views now ...
 from .models import Batch, SourceIngredient, Box, Comment, Label, Sugar, Yeast
 
@@ -33,14 +35,15 @@ class BatchListView(generic.ListView):
     model = Batch
 
     def get_queryset(self):
-        print(self.request.GET)
-        print(self.request.POST)
         if self.request.GET.has_key('search'):
             search = self.request.GET['search']
             query = Batch.objects.filter(Q(sourceingredient__name__icontains=search) | Q(label__name__icontains=search) | Q(sugar__name__icontains=search) | Q(yeast__name__icontains=search))
             if search.isdigit():
+                print('Its a digit')
                 #How do you append this?
-                query = query.filter(Q(pk__exact=search))
+                id_query = Batch.objects.filter(Q(id__exact=search))
+                query = query | id_query
+                #query = query.filter(Q(id__exact=search))
             return query
         return Batch.objects.all()
 
@@ -119,9 +122,13 @@ class YeastUpdateView(UpdateView):
 class CommentCreateView(CreateView):
     ### TODO: Should only be able to comment while boxes that contain batch still has bottles in ....., or not after two boths after ready 
     model = Comment
-    fields = ['viewpoint']
+    #fields = ['viewpoint', 'batch']
     #success_url='/homebrew/comment/thanks/'
     success_url=reverse_lazy('homebrew:comment_thanks')
+    def get_form_class(self):
+        if self.batch is None:
+            return modelform_factory(Comment, fields=('batch', 'viewpoint'), widgets={'batch': TextInput()})
+        return modelform_factory(Comment, fields=('viewpoint',))
 
     def get_context_data(self, **kwargs):
         context = super(CommentCreateView, self).get_context_data(**kwargs)
@@ -129,11 +136,15 @@ class CommentCreateView(CreateView):
         return context
 
     def dispatch(self, *args, **kwargs):
-        self.batch = get_object_or_404(Batch, pk=kwargs['pk'])
+        if 'pk' in kwargs:
+            self.batch = get_object_or_404(Batch, pk=kwargs['pk'])
+        else:
+            self.batch = None
         return super(CommentCreateView, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.batch = self.batch
+        if self.batch is not None:
+            form.instance.batch = self.batch
         return super(CommentCreateView, self).form_valid(form)
         #form.batch = self.request.
 
@@ -159,7 +170,7 @@ class BoxUpdateView(UpdateView):
         form.instance.user = self.request.user
         return super(BoxUpdateView, self).form_valid(form)
 
-class BoxDeleteView(UpdateView):
+class BoxDeleteView(DeleteView):
     model = Box
     success_url = reverse_lazy('homebrew:index')
 
