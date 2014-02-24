@@ -127,8 +127,13 @@ class CommentCreateView(CreateView):
     success_url=reverse_lazy('homebrew:comment_thanks')
     def get_form_class(self):
         if self.batch is None:
-            return modelform_factory(Comment, fields=('batch', 'viewpoint'), widgets={'batch': TextInput()})
-        return modelform_factory(Comment, fields=('viewpoint',))
+            form = modelform_factory(Comment, fields=('batch', 'viewpoint'), widgets={'batch': TextInput()})
+        else:
+            form = modelform_factory(Comment, fields=('viewpoint',))
+        print(dir(form))
+        form.base_fields['viewpoint'].widget.attrs['cols'] = 33
+        form.base_fields['viewpoint'].widget.attrs['rows'] = 6
+        return form
 
     def get_context_data(self, **kwargs):
         context = super(CommentCreateView, self).get_context_data(**kwargs)

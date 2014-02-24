@@ -5,19 +5,28 @@
 {% block heading %}Homebrew comment{% endblock %}
 
 {% block content %}
-    <h3>Comment on batch #{{ batch.id }}</h3>
     
     {% if batch %}
+        <h4>Comment on batch #{{ batch.id }}</h4>
         {% if batch.label != None %}
             <p><img src="{{ batch.label.image.url }}" width=300/></p>
         {% else %}
             <p><img src="{{ batch.sourceingredient.label.image.url }}" width=300/></p>
         {% endif %}
+    {% else %}
+        <h4>Comment on a batch</h4>
     {% endif %}
 
     <form action="" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.non_field_errors }}
+        {% if not batch %}
+            {{ form.batch.errors }}
+            <p><label>Batch #</label>{{ form.batch }}</p>
+        {% endif %}
+        <p><label>Comment:</label></p>
+        {{form.viewpoint.errors}}
+        <p>{{ form.viewpoint }}</p>
     
         <input type="submit" value="Submit" class="btn btn-success"/>
     </form>
