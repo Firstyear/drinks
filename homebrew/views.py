@@ -41,7 +41,7 @@ class BatchListView(generic.ListView):
             if search.isdigit():
                 print('Its a digit')
                 #How do you append this?
-                id_query = Batch.objects.filter(Q(id__exact=search))
+                id_query = Batch.objects.filter(Q(id__exact=search) | Q(sourceingredient__ean13__contains=search))
                 query = query | id_query
                 #query = query.filter(Q(id__exact=search))
             return query

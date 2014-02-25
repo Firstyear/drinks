@@ -23,25 +23,16 @@ class SourceIngredient(models.Model):
     volume = models.IntegerField()
     ### This should probably not be null .... 
     label = models.ForeignKey(Label)
-    source_ean = models.CharField(max_length=13)
+    source_ean = models.CharField(max_length=14)
+    ean13 = models.CharField(max_length=14)
     ## Should this have an EAN13?
 
     def __unicode__(self):
         return self.name
 
-    @property
-    def ean13(self):
-        ean = '0200001{id:0>5}'.format(id=self.id)
-        #checksum = 0
-        #for digit in ean:
-        #    weight = 1
-        #    numdigit = int(digit)
-        #    if numdigit % 2 == 1:
-        #        weight = 3
-        #    checksum = checksum + (weight * numdigit)
-        #checkdigit = 10 - (checksum % 10)
-        #ean = '{ean}{checkdigit}'.format(ean=ean, checkdigit=checkdigit) 
-        return ean
+    def clean(self):
+        if self.ean13 is None or self.ean13 == '0':
+            self.ean13 = '0200001{id:0>5}0'.format(id=self.id)
 
     def get_absolute_url(self):
         return reverse_lazy('homebrew:sourceingredient_detail', kwargs={'pk': self.pk})
