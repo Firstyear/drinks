@@ -32,7 +32,11 @@ class SourceIngredient(models.Model):
 
     def clean(self):
         if self.ean13 is None or self.ean13 == '0':
-            self.ean13 = '0200001{id:0>5}0'.format(id=self.id)
+            self.ean13 = '0200001{id:0>5}'.format(id=self.id)
+
+    @property
+    def get_ean13(self):
+        return '0200001{id:0>5}'.format(id=self.id)
 
     def get_absolute_url(self):
         return reverse_lazy('homebrew:sourceingredient_detail', kwargs={'pk': self.pk})

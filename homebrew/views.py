@@ -216,7 +216,7 @@ class L7160(object):
 
     def generate_qr(self, text):
         pass
-        qr_code = QrCodeWidget(text, barLevel='Q')
+        qr_code = QrCodeWidget(text, barLevel='M')
         bounds = qr_code.getBounds()
         width = bounds[2] - bounds[0]
         height = bounds[3] - bounds[1]
@@ -267,8 +267,8 @@ def batch_label(request, pk):
     else:
         label.set_image(batch.label.image.path)
     label.set_text(batch.label_text)
-    label.generate_qr("http://homebrew.blackhats.net.au/homebrew/comment/%s/" % batch.id)
-    label.generate_ean(batch.sourceingredient.ean13)
+    label.generate_qr("http://hb.blackhats.net.au/c/%s/" % batch.id)
+    label.generate_ean(batch.sourceingredient.get_ean13)
     label.draw_labels(canv)
     canv.showPage()
     canv.save()
