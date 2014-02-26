@@ -14,8 +14,8 @@ EMAIL_PORT = '25'
 with open(os.path.join(BASE_DIR, 'secret.key')) as f:
     SECRET_KEY = f.readline()
 DEBUG = True
-TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['127.0.0.1', 'hb.blackhats.net.au', 'homebrew.blackhats.net.au']
 INSTALLED_APPS = ('django.contrib.admin', 'django.contrib.auth', 'django.contrib.contenttypes', 'django.contrib.sessions', 'django.contrib.messages', 'django.contrib.staticfiles', 'homebrew')
 MIDDLEWARE_CLASSES = ('django.contrib.sessions.middleware.SessionMiddleware', 'django.middleware.common.CommonMiddleware', 'django.middleware.csrf.CsrfViewMiddleware', 'django.contrib.auth.middleware.AuthenticationMiddleware', 'django.contrib.messages.middleware.MessageMiddleware', 'django.middleware.clickjacking.XFrameOptionsMiddleware')
 ROOT_URLCONF = 'drinks.urls'
