@@ -234,6 +234,7 @@ class L7160(object):
         self.ean_draw.add(barcode_eanbc13)
 
     def set_text(self, text):
+        print(text)
         self.text = text
 
     def set_image(self, image_path):
@@ -257,7 +258,7 @@ class L7160(object):
 def batch_label(request, pk):
     batch = get_object_or_404(Batch, pk=pk)
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="labels-%s.pdf"' % pk
     buffer = BytesIO()
     label = L7160()
     canv = canvas.Canvas( buffer, pagesize=A4 )

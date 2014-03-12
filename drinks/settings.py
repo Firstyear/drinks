@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-EMAIL_HOST = 'smtp.adelaide.edu.au'
+EMAIL_HOST = '127.0.0.1'
 EMAIL_PORT = '25'
 with open(os.path.join(BASE_DIR, 'secret.key')) as f:
     SECRET_KEY = f.readline()

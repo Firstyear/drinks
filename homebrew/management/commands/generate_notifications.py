@@ -16,8 +16,8 @@ class Command(BaseCommand):
         messages = ()
         for user in User.objects.all():
             ### Check batches ready to bottle
-            bottle_batch_list = Batch.objects.filter(predicted_ready__lte=today,user=user)
-            brewed_batch_list = Batch.objects.filter(predicted_brew_ready__lte=today,user=user)
+            bottle_batch_list = Batch.objects.filter(predicted_ready__lte=today,user=user,notified_bottle_complete=False)
+            brewed_batch_list = Batch.objects.filter(predicted_brew_ready__lte=today,user=user,notified_brew_complete=False)
             ### Check batches ready to drink.
             if len(brewed_batch_list) > 0 or len(bottle_batch_list) > 0:
                 message_body = 'Hi {user}, the following is ready:\n\n'.format(user=user)
@@ -37,4 +37,5 @@ class Command(BaseCommand):
                             'noreply@blackhats.net.au',
                             [user.email])
                 messages += (message,)
-        send_mass_mail(messages, fail_silently=False)
+        if len(messages) > 0:
+            send_mass_mail(messages, fail_silently=False)

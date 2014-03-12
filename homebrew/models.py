@@ -117,7 +117,7 @@ class Batch(models.Model):
                     self.end_specific_gravity) /0.79 ) * 100
             return abv + 0.5 # Due to sugar charging!!!!
         else:
-            return None
+            return 0
 
     def get_absolute_url(self):
         return reverse_lazy('homebrew:batch_detail', kwargs={'pk': self.pk})
