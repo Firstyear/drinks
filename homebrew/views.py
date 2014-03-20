@@ -102,6 +102,7 @@ class SourceIngredientUpdateView(UpdateView):
 #class SourceIngredientDelete(DeleteView):
 
 class SugarCreateView(CreateView):
+    success_url=reverse_lazy('homebrew:ingredient_view')
     model = Sugar
     fields = ['name', 'comment']
 
@@ -234,7 +235,6 @@ class L7160(object):
         self.ean_draw.add(barcode_eanbc13)
 
     def set_text(self, text):
-        print(text)
         self.text = text
 
     def set_image(self, image_path):
@@ -248,10 +248,7 @@ class L7160(object):
             tx = canv.beginText( x + self.WIDTH * 0.01, y+self.HEIGHT * 0.24)
             tx.setFont( 'Helvetica', 8, 8 )
             tx.textLines( self.text )
-            #    
             canv.drawText( tx )
-            #barcode = code39.Extended39("0001")
-            #barcode.drawOn(canv, x + width *0.5, y+height * 0.05)
             renderPDF.draw(self.qr_draw, canv, x + self.WIDTH * 0.75, y -3 ) #+ HEIGHT )
             renderPDF.draw(self.ean_draw, canv, x + 4, y) # + HEIGHT)
 
@@ -269,7 +266,7 @@ def batch_label(request, pk):
         label.set_image(batch.label.image.path)
     label.set_text(batch.label_text)
     label.generate_qr("http://hb.blackhats.net.au/c/%s/" % batch.id)
-    label.generate_ean(batch.sourceingredient.get_ean13)
+    label.generate_ean(batch.sourceingredient.ean13)
     label.draw_labels(canv)
     canv.showPage()
     canv.save()

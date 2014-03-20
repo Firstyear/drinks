@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 import datetime
-from datetime import date
+from datetime import date, timedelta
 import math
 
 class Label(models.Model):
@@ -24,19 +24,18 @@ class SourceIngredient(models.Model):
     ### This should probably not be null .... 
     label = models.ForeignKey(Label)
     source_ean = models.CharField(max_length=14)
-    ean13 = models.CharField(max_length=14)
+    ean13 = models.CharField(max_length=14, blank=True, null=True, default=None)
     ## Should this have an EAN13?
 
     def __unicode__(self):
         return self.name
 
     def clean(self):
-        if self.ean13 is None or self.ean13 == '0':
-            self.ean13 = '0200001{id:0>5}'.format(id=self.id)
-
-    @property
-    def get_ean13(self):
-        return '0200001{id:0>5}'.format(id=self.id)
+        print(self.id)
+        print(self.ean13)
+        if self.id is not None:
+            if self.ean13 is None or self.ean13 == '0':
+                self.ean13 = '0200001{id:0>5}'.format(id=self.id)
 
     def get_absolute_url(self):
         return reverse_lazy('homebrew:sourceingredient_detail', kwargs={'pk': self.pk})
@@ -175,6 +174,16 @@ class Comment(models.Model):
     @property
     def allowed(self):
         ## Look up the batch, and it's boxes, and count the bottles
+        total_bottles = 0
+        for box in self.batch.box_set.all():
+            total_bottles += box.number_bottles
+        if total_bottles <= 0:
+            return False
         ## Also check if it's past the predicted ready date
+        if datetime.now() < (batch.predicted_ready - timedelta(days=7)):
+            return False
         ## Finally, if after 3 months from the predicted ready, close comments
-        pass
+        if datetime.now() > (batch.predicted_ready + timedelta(days=56)):
+            return False
+        return True
+
